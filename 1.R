@@ -1,9 +1,9 @@
 library(astsa) #SEE THE FOOTNOTE
+library(xts)
+library(forecast)
 plot(jj, type="o", ylab="Quarterly Earnings per Share") 
 plot(globtemp, type="o", ylab="Global Temperature Deviations") 
 plot(speech)
-library(xts)
-library(forecast)
 nd=ndiffs(djia)
 print(nd)
 djiar = diff(log(djia$Close))[-1] #approximate returns
@@ -89,3 +89,13 @@ ccf(X,Yw,24, ylab='CCF(X,Yw)', ylim=c(-.6,.6))
 # Example 1.30 Soil Surface Temperatures  As an example, the two-dimensional (r = 2)
 persp(1:64, 1:36, soiltemp, phi=25, theta=25, scale=FALSE, expand=4,  ticktype="detailed", xlab="rows", ylab="cols", zlab="temperature")
 plot.ts(rowMeans(soiltemp), xlab="row", ylab="Average Temperature") 
+
+# Example 1.31 Sample ACF of the Soil Temperature Series  The autocorrelation function of the two-dimensional (2d) temperature
+fs = Mod(fft(soiltemp-mean(soiltemp)))^2/(64*36)
+cs = Re(fft(fs, inverse=TRUE)/sqrt(64*36)) #ACovF 
+rs = cs/cs[1,1] #ACF
+rs2 = cbind(rs[1:41,21:2], rs[1:41,1:21])
+rs3 = rbind(rs2[41:2,], rs2)
+par(mar = c(1,2.5,0,0)+.1)
+persp(-40:40, -20:20, rs3, phi=30, theta=30, expand=30, scale="FALSE",  ticktype="detailed", xlab="row lags", ylab="column lags",  zlab="ACF") 
+

@@ -14,6 +14,7 @@ abline(fit) #add the fitted line  The multiple linear regression model described
 str(chicken)
 
 # Definition 2.3 Bayesian Information Criterion (BIC) 
+par(mar = c(.1, .1, .1, .1))
 par(mfrow=c(3,1)) #plot the data
 plot(cmort, main="Cardiovascular Mortality", xlab="", ylab="")
 plot(tempr, main="Temperature", xlab="", ylab="")
@@ -47,6 +48,7 @@ summary(fit1 <- lm(rec~soiL6, data=fish, na.action=NULL))
 # Example 2.6 Differencing Global Temperature  The global temperature series shown in Fig. 1.2
 plot(globtemp, type="o", ylab="Global Temperature Deviations") 
 
+par(mar = c(.1, .1, .1, .1))
 par(mfrow=c(2,1))
 plot(diff(globtemp), type="o")
 mean(diff(globtemp)) #drift estimate = .008
@@ -65,7 +67,8 @@ lag1.plot(soi, 12) #Fig. 2.8
 lag2.plot(soi, rec, 8) #Fig. 2.9 
 
 dummy = ifelse(soi<0, 0, 1)
-fish = ts.intersect(rec, soiL6=lag(soi,-6), dL6=lag(dummy,-6), dframe=TRUE)  summary(fit <- lm(rec~ soiL6*dL6, data=fish, na.action=NULL))
+fish = ts.intersect(rec, soiL6=lag(soi,-6), dL6=lag(dummy,-6), dframe=TRUE)
+summary(fit <- lm(rec~ soiL6*dL6, data=fish, na.action=NULL))
 # Coefficients:  Estimate Std.Error t.value
 # (Intercept) 74.479 2.865 25.998 
 # soiL6 -15.358 7.401 -2.075  dL6 -1.139 3.711 -0.307
